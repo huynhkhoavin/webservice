@@ -11,7 +11,7 @@ if ($action=="login")
 	$sql = "SELECT * FROM tai_khoan"." WHERE TK_USER ='$user' and TK_PASS='$pass'"; // Viết querry
 	$result = $connect->query($sql);
 	$row = mysqli_fetch_array($result,MYSQLI_NUM); // Tách kết quả ra trả về 1 Array
-	if(count($row[1])>=1){
+	if(count($row)>=1){
             if ($row[4] == 1) { // Hien dang dang nhap
                 echo "Using";
             }
@@ -21,5 +21,9 @@ if ($action=="login")
                 echo $row[5];
             }
         }
+}
+else if($action=="test")
+{
+    echo $_POST['data'];
 }
 ?>
