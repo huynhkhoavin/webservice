@@ -29,20 +29,30 @@ if ($action == 'get_all_room_booked')
   }
   echo json_encode($mang);
 }
-if($action == 'get_free_room') // Lay ra cac phong co san trong khoang thoi gian do
+if($action == 'get_room_of_store') // Lay ra cac phong co san trong khoang thoi gian do
     {
     $data = $_POST['data']; // Lấy dữ liệu đã truyền lên
-    $object = json_decode($data);
-    $start = $data['start']; // gio bat dau
-    $stop  = $data['stop']; // gio ket thuc
-    $store = $data['store_id'];
-    $sql = "SELECT * FROM danh_sach_dat_phong where (PD_ID in ( select PD_ID from phong_dat where CH_ID = '$store')) AND (PD_GIO_BAT_DAU)";
+    //$object = json_decode($data);
+    $store = $data; // cửa hàng
+    $sql = "SELECT * FROM phong_dat WHERE PD_ID IN (SELECT PD_ID FROM phong_dat WHERE CH_ID = '$store')";
     $result = $connect->query($sql);
     $mang = array();
     while($data = mysqli_fetch_array($result)){
-        
         array_push($mang, $data); 
-//        json_encode($data);
+  }
+  echo json_encode($mang);
+}
+if($action == 'get_status_one_room')
+{
+    $data = $_POST['data'];
+    $obj = json_decode($data);
+    $pd = $obj->{'PD_ID'};
+    $date = $obj->{'Date'};
+    $sql = "SELECT * FROM `danh_sach_dat_phong` WHERE PD_ID = '$pd' AND DATE(GIO_BAT_DAU) = '$date'";
+    $result = $connect->query($sql);
+    $mang = array();
+    while($data = mysqli_fetch_array($result)){
+        array_push($mang, $data); 
   }
   echo json_encode($mang);
 }
