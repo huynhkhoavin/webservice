@@ -56,22 +56,20 @@ if($action == 'get_status_one_room')
   }
   echo json_encode($mang);
 }
-if($action == 'room_order') // Xac nhan dat phong
-{
-    $data = $_POST['data']; // Lấy dữ liệu đã truyền lên
-    $object = json_decode($data);
-    $tk_id = $object['tk_id'];
-    $pd_id = $object['pd_id'];
-    $start = $object['start'];
-    $stop  = $object['stop'];
-    $sql = "insert into danh_sach_dat_phong values('$tk_id','$pd_id','$start','$stop')";
+if ($action =='room_order') {
+    $data = $_POST['data'];
+    $obj = json_decode($data);
+   $tk_id = $obj->{'TK_ID'};
+   $pd_id = $obj->{'PD_ID'};
+   $start = $obj->{'GIO_BAT_DAU'};
+   $stop  = $obj->{'GIO_KET_THUC'};
+   $QR    = $obj->{'QR'};
+   $curr  = $obj->{'NGAY_TAO'};
+    
+    $sql = "INSERT INTO danh_sach_dat_phong VALUES (NULL, '$tk_id', '$pd_id', '$start', '$stop', '6', '$QR', '$curr')";
     $result = $connect->query($sql);
-    $mang = array();
-    while($data = mysqli_fetch_array($result)){
-        
-        array_push($mang, $data);
-          }
-  echo json_encode($mang);
+    echo "OK";
+    
 }
 if($action == 'get_history') // Lay lich su da dat phong
 {
